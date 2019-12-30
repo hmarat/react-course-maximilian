@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useContext } from "react"
 
 import classes from "./Cockpit.css"
 import AuthContext from "../../contexts/auth-context"
 
 const Cockpit = props => {
     const toggleBtnRef = useRef(null);
+    const context = useContext(AuthContext);
 
     useEffect(() => {
         console.log("[Cockpit.js] Use effect");
@@ -19,49 +20,44 @@ const Cockpit = props => {
         }
     }, [])
 
-    useEffect(() =>{
+    useEffect(() => {
         console.log("[Cockpit.js] Use effect 2nd");
         return () => {
             console.log("[Cockpit.js] Use effect 2nd cleanup ")
         }
     })
 
-        const assignedClasses = [];
-        let btnClass = "";
+    const assignedClasses = [];
+    let btnClass = "";
 
-        if (props.showPersons) {
-            btnClass = classes.Red;
-        }
+    if (props.showPersons) {
+        btnClass = classes.Red;
+    }
 
-        if (props.personsLength <= 2) {
-            assignedClasses.push(classes.red);
-        }
+    if (props.personsLength <= 2) {
+        assignedClasses.push(classes.red);
+    }
 
-        if (props.personsLength <= 1) {
-            assignedClasses.push(classes.bold);
-        }
+    if (props.personsLength <= 1) {
+        assignedClasses.push(classes.bold);
+    }
 
-        return (
-            <div className={classes.Cockpit}>
-                <h1>Hello, I am a react component</h1>
-                <p className={assignedClasses.join(" ")}>This is really working</p>
-                <button
-                    onClick={props.clicked}
-                    className={btnClass}
-                    ref={toggleBtnRef}
-                >
-                    Switch Person
-                </button>
-                <AuthContext.Consumer>
-                    {(context) => (
-                    <button onClick={context.login}>
-                        Log in
-                    </button>
-                    )}
-                    
-                </AuthContext.Consumer>
-            </div>
-        )
+    return (
+        <div className={classes.Cockpit}>
+            <h1>Hello, I am a react component</h1>
+            <p className={assignedClasses.join(" ")}>This is really working</p>
+            <button
+                onClick={props.clicked}
+                className={btnClass}
+                ref={toggleBtnRef}
+            >
+                Switch Person
+            </button>
+            <button onClick={context.login}>
+                {context.isAuth ? "Log out" : "Log in"}
+            </button>
+        </div>
+    )
 }
 
 export default React.memo(Cockpit);

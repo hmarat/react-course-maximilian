@@ -22,12 +22,12 @@ class App extends Component {
     console.log("[App.js] componentDidMount");
   }
 
-  shouldComponentUpdate(prevProps, prevState){
+  shouldComponentUpdate(prevProps, prevState) {
     console.log("[App.js] shouldComponentUpdate");
     return true;
   }
-  
-  componentDidUpdate(){
+
+  componentDidUpdate() {
     console.log("[App.js] componentDidUpdate");
   }
 
@@ -42,8 +42,8 @@ class App extends Component {
     isAuthenticated: false
   }
 
-  loginHandler = () =>{
-    this.setState({isAuthenticated: true})
+  loginHandler = () => {
+    this.setState((prevState) => ({ isAuthenticated: !prevState.isAuthenticated }))
   }
 
   togglePersonsHandler = () => {
@@ -87,14 +87,14 @@ class App extends Component {
 
     return (
       <Aux classes={classes.App}>
-        <button onClick={() => {this.setState({showCockpit: !this.state.showCockpit})}}>Show cockpit</button>
-        <AuthContext.Provider value={{isAuth: this.state.isAuthenticated, login: this.loginHandler}}>
-        { this.state.showCockpit ? <Cockpit
-          showPersons={this.state.showPersons}
-          personsLength={this.state.persons.length}
-          clicked={this.togglePersonsHandler}
-        /> : null}
-        {persons}
+        <button onClick={() => { this.setState({ showCockpit: !this.state.showCockpit }) }}>Show cockpit</button>
+        <AuthContext.Provider value={{ isAuth: this.state.isAuthenticated, login: this.loginHandler }}>
+          {this.state.showCockpit ? <Cockpit
+            showPersons={this.state.showPersons}
+            personsLength={this.state.persons.length}
+            clicked={this.togglePersonsHandler}
+          /> : null}
+          {persons}
         </AuthContext.Provider>
       </Aux>
     );
